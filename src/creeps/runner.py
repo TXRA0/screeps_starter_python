@@ -4,6 +4,15 @@ from roles.miner import run_miner
 from roles.hauler import run_hauler
 from roles.worker import run_worker
 
+__pragma__('noalias', 'name')
+__pragma__('noalias', 'undefined')
+__pragma__('noalias', 'Infinity')
+__pragma__('noalias', 'keys')
+__pragma__('noalias', 'get')
+__pragma__('noalias', 'set')
+__pragma__('noalias', 'type')
+__pragma__('noalias', 'update')
+__pragma__('noalias', 'Object')
 
 def run_creeps():
     #This runs the action function for each creep, based on its role.

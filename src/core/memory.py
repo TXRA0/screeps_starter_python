@@ -1,15 +1,27 @@
 from defs import *
 
-#This sets up "memhack", which saves CPU by remembering the contents of Memory between ticks.
-my_memory = RawMemory._parsed
+__pragma__('noalias', 'name')
+__pragma__('noalias', 'undefined')
+__pragma__('noalias', 'Infinity')
+__pragma__('noalias', 'keys')
+__pragma__('noalias', 'get')
+__pragma__('noalias', 'set')
+__pragma__('noalias', 'type')
+__pragma__('noalias', 'update')
+__pragma__('noalias', 'Object')
 
+# Initialize memory safely
+my_memory = RawMemory._parsed
+if my_memory == None:
+    my_memory = {}
+    RawMemory._parsed = my_memory
 
 def setup_memory():
-    #This keeps track of every time your script experiences a global reset.
-    if my_memory.reset_log == None:
+    # Initialize fields if missing
+    if not hasattr(my_memory, 'reset_log') or my_memory.reset_log == None:
         my_memory.reset_log = []
 
-    if my_memory.last_reset != None:
+    if hasattr(my_memory, 'last_reset') and my_memory.last_reset != None:
         print(
             ' ======= Global reset! Time of reset: ' +
             Game.time +
@@ -24,7 +36,7 @@ def setup_memory():
 
     my_memory.last_reset = Game.time
 
-    #This sets up some parts of Memory if they're not set yet.
+    # Initialize sub-objects
     if my_memory.creeps == None:
         my_memory.creeps = {}
 
@@ -34,9 +46,7 @@ def setup_memory():
     if my_memory.spawns == None:
         my_memory.spawns = {}
 
-
 def apply_memhack():
-    #This is the in-loop part of memhack.
     __pragma__('js', '{}', 'delete global.Memory;')
     __pragma__('js', '{}', 'global.Memory = my_memory;')
     __pragma__('js', '{}', 'RawMemory._parsed = my_memory;')

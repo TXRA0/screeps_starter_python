@@ -1,5 +1,3 @@
-#This is now deprecated
-
 from defs import *
 import math
 import random
@@ -202,5 +200,4 @@ def worker_action(creep):
         if creep.pos.inRangeTo(target, 3):
             creep.build(target)
         else:
-
             creep.moveTo(target)
